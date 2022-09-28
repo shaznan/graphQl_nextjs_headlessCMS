@@ -1,8 +1,59 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from "@apollo/client";
 
-export default function Home() {
+const client = new ApolloClient({
+  uri: "https://api-us-west-2.hygraph.com/v2/cl8k1zu6q18pe01td4a3pduq9/master",
+  cache: new InMemoryCache(),
+});
+
+const queryBlogs = gql`
+  query Blogs {
+    blogs {
+      publishedAt
+      datePublished
+      id
+      publishedAt
+      slug
+      title
+      updatedAt
+      content {
+        html
+      }
+      author {
+        name
+        avatar {
+          url
+        }
+      }
+      coverPhoto {
+        url
+      }
+    }
+  }
+`;
+
+export async function getStaticProps() {
+  const posts = await client.query({
+    query: queryBlogs,
+  });
+
+  return {
+    props: {
+      posts,
+    },
+    revalidate: 10,
+  };
+}
+
+export default function Home({ posts }) {
+  console.log(posts, "posts");
   return (
     <div className={styles.container}>
       <Head>
@@ -11,7 +62,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}></main>
+      <main className={styles.main}>
+        {posts?.data?.blogs?.map((item) => (
+          <>
+            <div>{item?.title}</div>
+            <div>{item?.publishedAt}</div>
+          </>
+        ))}
+      </main>
     </div>
   );
 }
