@@ -15,6 +15,32 @@ a {
   box-sizing: border-box;
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.post_container {
+  width: 50vw;
+  margin-bottom: 5rem;
+}
+
+.author_image {
+  width: 80px;
+}
+
+.post_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  -webkit-box-shadow: 10px 10px 22px 4px rgba(0, 0, 0, 0.07);
+  -moz-box-shadow: 10px 10px 22px 4px rgba(0, 0, 0, 0.07);
+  box-shadow: 10px 10px 22px 4px rgba(0, 0, 0, 0.07);
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

@@ -7,6 +7,7 @@ import {
   ApolloProvider,
   gql,
 } from "@apollo/client";
+import Posts from "../components/posts";
 
 const client = new ApolloClient({
   uri: "https://api-us-west-2.hygraph.com/v2/cl8k1zu6q18pe01td4a3pduq9/master",
@@ -62,12 +63,10 @@ export default function Home({ posts }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className="main">
+        <h1>List of Blogs</h1>
         {posts?.data?.blogs?.map((item) => (
-          <>
-            <div>{item?.title}</div>
-            <div>{item?.publishedAt}</div>
-          </>
+          <Posts item={item} />
         ))}
       </main>
     </div>
