@@ -1,15 +1,9 @@
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import Posts from "../components/posts";
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: "https://api-us-west-2.hygraph.com/v2/cl8k1zu6q18pe01td4a3pduq9/master",
   cache: new InMemoryCache(),
 });
@@ -65,8 +59,8 @@ export default function Home({ posts }) {
 
       <main className="main">
         <h1>List of Blogs</h1>
-        {posts?.data?.blogs?.map((item) => (
-          <Posts item={item} />
+        {posts?.data?.blogs?.map((item, i) => (
+          <Posts item={item} key={i} />
         ))}
       </main>
     </div>
