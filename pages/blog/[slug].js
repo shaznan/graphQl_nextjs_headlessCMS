@@ -1,9 +1,9 @@
 import React from "react";
 import { client } from "../index";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 const queryBlogPost = gql`
-  query Blogs($slug: string!) {
+  query Blogs($slug: String!) {
     blogs(where: { slug: $slug }) {
       id
       title
@@ -51,25 +51,28 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  console.log(params, "PARAMS");
   const slug = params.slug;
-  // const data = await client.query({
-  //   query: getQueryBlogPosts(slug),
-  // });
 
   const data = await client.query({
     query: queryBlogPost,
-    variables: slug,
+    variables: { slug },
   });
 
-  // console.log(data, "lol");
   return {
     props: data,
   };
 }
 
-const Post = ({ data }) => {
-  return <div></div>;
+const Post = ({ data: { blogs } }) => {
+  return (
+    <div>
+      <h2>{`The title is ${blogs?.[0]?.title}`}</h2>
+      <div
+        dangerouslySetInnerHTML={{ __html: blogs?.[0]?.content?.html }}
+      ></div>
+      <img src={blogs?.[0]?.coverPhoto?.url} />
+    </div>
+  );
 };
 
 export default Post;
