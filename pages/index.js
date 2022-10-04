@@ -18,9 +18,6 @@ const queryBlogs = gql`
       slug
       title
       updatedAt
-      content {
-        html
-      }
       author {
         name
         avatar {
@@ -48,7 +45,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({ posts }) {
-  console.log(posts, "posts");
   return (
     <div className={styles.container}>
       <Head>

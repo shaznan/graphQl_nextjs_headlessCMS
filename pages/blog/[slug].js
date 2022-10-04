@@ -16,9 +16,6 @@ const queryBlogPost = gql`
           url
         }
       }
-      content {
-        html
-      }
       coverPhoto {
         id
         url
@@ -68,9 +65,7 @@ const Post = ({ data: { blogs } }) => {
   return (
     <div>
       <h2>{`The title is ${blogs?.[0]?.title}`}</h2>
-      <div
-        dangerouslySetInnerHTML={{ __html: blogs?.[0]?.content?.html }}
-      ></div>
+
       <img src={blogs?.[0]?.coverPhoto?.url} />
     </div>
   );
