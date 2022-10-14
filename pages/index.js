@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { PostCard, PostWidget, Catergories } from "../components";
+import { getPosts } from "../services/index";
 
 const posts = [
   {
@@ -12,7 +13,8 @@ const posts = [
   },
 ];
 
-export default function Home() {
+export default function Home({ posts }) {
+  console.log(posts, "posts");
   return (
     <div className="max-w-7xl mx-auto mb-8 px-10 ">
       <Head>
@@ -35,3 +37,11 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  const posts = (await getPosts()) || [];
+
+  return {
+    props: { posts },
+  };
+};
