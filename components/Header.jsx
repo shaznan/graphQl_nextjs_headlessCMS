@@ -11,7 +11,6 @@ const catergories = [
     slug: "web-dev",
   },
 ];
-
 const Header = () => {
   return (
     <div className="container mx-auto px-10 mb-8">
