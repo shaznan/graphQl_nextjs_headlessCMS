@@ -37,6 +37,41 @@ export const getPosts = async () => {
   return results?.postsConnection?.edges;
 };
 
+//Get only the post related to the URL param for dynamic route
+export const getPostDetails = async (slug) => {
+  const query = gql`
+    query fetchPostDetails($slug: String!) {
+      post(where: { slug: $slug }) {
+        createdAt
+        slug
+        title
+        exerpt
+        author {
+          bio
+          name
+          id
+          photo {
+            url
+          }
+        }
+        featuredImage {
+          url
+        }
+        catergories {
+          name
+          slug
+        }
+        content {
+          raw
+        }
+      }
+    }
+  `;
+
+  const results = await request(graphqlAPI, query, { slug });
+  return results?.post;
+};
+
 export const getRecentPost = async () => {
   const query = gql`
     query getPostDetails(){
