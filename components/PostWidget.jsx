@@ -9,7 +9,7 @@ const PostWidget = ({ catergories, slug }) => {
 
   useEffect(() => {
     if (slug) {
-      getSimilarPosts(catergories, slug).then((result) =>
+      getSimilarPost(catergories, slug).then((result) =>
         setRelatedPosts(result)
       );
     } else {
