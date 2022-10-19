@@ -50,7 +50,7 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async (params) => {
+export const getStaticProps = async ({ params }) => {
   const data = await getPostDetails(params?.slug);
 
   return {

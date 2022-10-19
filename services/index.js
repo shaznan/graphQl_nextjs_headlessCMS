@@ -39,6 +39,7 @@ export const getPosts = async () => {
 
 //Get only the post related to the URL param for dynamic route
 export const getPostDetails = async (slug) => {
+  console.log(slug, "slug");
   const query = gql`
     query fetchPostDetails($slug: String!) {
       post(where: { slug: $slug }) {
