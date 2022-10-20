@@ -39,7 +39,6 @@ export const getPosts = async () => {
 
 //Get only the post related to the URL param for dynamic route
 export const getPostDetails = async (slug) => {
-  console.log(slug, "slug");
   const query = gql`
     query fetchPostDetails($slug: String!) {
       post(where: { slug: $slug }) {
@@ -130,4 +129,12 @@ export const getCatergories = async () => {
 
   const result = await request(graphqlAPI, query);
   return result.catergories;
+};
+
+export const submitComment = async (obj) => {
+  const result = fetch("/api/comments", {
+    method: "POST",
+    body: JSON.stringify(obj),
+  });
+  return result.json();
 };
