@@ -1,4 +1,5 @@
 import { request, gql } from "graphql-request";
+import axios from "axios";
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPH_CMS_ENDPOINT;
 
@@ -132,9 +133,10 @@ export const getCatergories = async () => {
 };
 
 export const submitComment = async (obj) => {
-  const result = fetch("/api/comments", {
-    method: "POST",
-    body: JSON.stringify(obj),
+  const result = axios.post("/api/comments", obj, {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
   });
-  return result.json();
+  return result;
 };

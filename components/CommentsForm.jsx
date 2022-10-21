@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { submitComment } from "../services/index";
 
-const CommentsForm = () => {
+const CommentsForm = ({ slug }) => {
   const [error, setError] = useState(false);
   const [localStorage, setLocalStorage] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -9,13 +10,20 @@ const CommentsForm = () => {
   const emailEl = useRef();
   const storeDataEl = useRef();
 
+  useEffect(() => {
+    nameEl.current.value = window.localStorage.getItem("name");
+    emailEl.current.value = window.localStorage.getItem("email");
+  }, []);
+
   const handleCommentSubmission = () => {
     setError(false);
 
-    const { value: comment } = commentEl.current;
-    const { value: name } = nameEl.current;
-    const { value: email } = emailEl.current;
-    const { checked: storeData } = storeDataEl.current;
+    const comment = commentEl?.current?.value;
+    const name = nameEl?.current?.value;
+    const email = emailEl?.current?.value;
+    const storeData = storeDataEl?.current?.checked;
+
+    console.log(comment, name, email);
 
     if (!comment || !name || !email) {
       setError(true);
@@ -30,12 +38,17 @@ const CommentsForm = () => {
     };
 
     if (storeData) {
-      localStorage.setItem("name", name);
-      localStorage.setItem("email", email);
+      window.localStorage.setItem("name", name);
+      window.localStorage.setItem("email", email);
     } else {
-      localStorage.removeItem("name", name);
-      localStorage.removeItem("email", email);
+      window.localStorage.removeItem("name", name);
+      window.localStorage.removeItem("email", email);
     }
+
+    submitComment(commentObj).then((res) => {
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 3000);
+    });
   };
 
   return (
@@ -46,6 +59,7 @@ const CommentsForm = () => {
           className="p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-700 bg-gray-100 text-gray-700"
           placeholder="Comment"
           name="comment"
+          ref={commentEl}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
